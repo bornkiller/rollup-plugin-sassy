@@ -1,0 +1,17 @@
+{
+  "name": "rollup-plugin-sassy",
+  "version": "0.1.0",
+  "description": "rollup plugin for sass -> css -> css-module workflow.",
+  "main": "index.js",
+  "author": "bornkiller <hjj491229492@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "postcss": "^5.2.17",
+    "postcss-modules": "^0.6.4"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^3.19.0"
+  }
+}
