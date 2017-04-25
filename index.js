@@ -10,12 +10,14 @@ const { createFilter } = require('rollup-pluginutils');
 const { fabricateSassyCode, transformSassyFlow } = require('./src/intermediate');
 
 const defaults = {
-  include: ['**/*.css']
+  include: ['**/*.css'],
+  dest: 'dist/sassy.css'
 };
 
 module.exports = sassy;
 
-function sassy(options = defaults) {
+function sassy(opts) {
+  const options = Object.assign({}, defaults, opts);
   const filter = createFilter(options.include, options.exclude);
   const styles = {};
 
@@ -34,17 +36,17 @@ function sassy(options = defaults) {
           };
         });
     },
-    ongenerate(opts) {
+    ongenerate() {
       let css = keys(styles).map((key) => Reflect.get(styles, key)).join('\n\n');
       let destiny = '';
 
-      if (isFunction(opts.output)) {
-        return opts.output(css, styles);
+      if (isFunction(options.output)) {
+        return options.output(css, styles);
       }
 
-      if (!css.length || !isString(opts.dest)) return;
+      if (!css.length || !isString(options.dest)) return;
 
-      destiny = opts.dest || 'bundle.css';
+      destiny = options.dest || 'bundle.css';
       destiny = path.resolve(process.cwd(), destiny);
 
       return fs.ensureDir(path.dirname(destiny)).then(() => fs.writeFile(destiny, css));
