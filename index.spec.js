@@ -2,24 +2,21 @@
  * @description - plugin original css
  * @author - bornkiller <hjj491229492@hotmail.com>
  */
-
-const fs = require('fs');
-const path = require('path');
+const assert = require('assert');
 const rollup = require('rollup');
-const sassy = require('..');
+const sassy = require('./');
 
 // standard directory change
-process.chdir(__dirname);
-
 describe('rollup-plugin-sassy', function () {
   it('convert css', function () {
     return rollup.rollup({
-      entry: 'fixture/sassy.js',
+      entry: 'test/sassy.js',
       plugins: [sassy()]
     }).then((bundle) => {
-      let { code } = bundle.generate({ format: 'es'});
+      let { code } = bundle.generate({ format: 'es' });
+      let fn = new Function('assert', code);
 
-      console.log(code);
-    })
+      fn(assert);
+    });
   });
 });
