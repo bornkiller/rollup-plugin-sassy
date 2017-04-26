@@ -7,16 +7,22 @@ const path = require('path');
 const fs = require('fs-promise');
 const { keys, isFunction, isString } = require('lodash');
 const { createFilter } = require('rollup-pluginutils');
-const { fabricateSassyCode, transformSassyFlow } = require('./src/intermediate');
+const { compileSassCode, fabricateSassyCode, transformSassyFlow } = require('./src/intermediate');
 
 const defaults = {
-  include: ['**/*.css'],
-  dest: 'dist/sassy.css'
+  include: ['**/*.css', '**/*.scss'],
+  exclude: ['node_modules/**', 'bower_components/**'],
+  dest: 'dist/sassy.css',
+  // node-sass options
+  sass: {
+    sourceMap: false,
+    outputStyle: 'expanded'
+  }
 };
 
 module.exports = sassy;
 
-function sassy(opts) {
+function sassy(opts = {}) {
   const options = Object.assign({}, defaults, opts);
   const filter = createFilter(options.include, options.exclude);
   const styles = {};
@@ -26,7 +32,11 @@ function sassy(opts) {
     transform(sassy, id) {
       if (!filter(id)) return null;
 
-      return transformSassyFlow(sassy, id)
+      const includePaths = opts.sass ? [...opts.sass, path.dirname(id), process.cwd()] : [path.dirname(id), process.cwd()];
+      const config = Object.assign({ data: sassy }, opts.sass, { includePaths: includePaths });
+
+      return compileSassCode(config)
+        .then((css) => transformSassyFlow(css, id))
         .then((intermediate) => {
           Reflect.set(styles, id, intermediate.css);
 

@@ -5,14 +5,31 @@
 
 const postcss = require('postcss');
 const postCssModules = require('postcss-modules');
+const { render } = require('node-sass');
 const { camelCase, keys } = require('lodash');
 const Reflection = new Map();
 
 module.exports = {
   Reflection,
+  compileSassCode,
   transformSassyFlow,
   fabricateSassyCode
 };
+
+/**
+ * @description - compile sass code
+ *
+ * @param {object} config
+ *
+ * @returns {Promise}
+ */
+function compileSassCode(config) {
+  return new Promise((resolve, reject) => {
+    render(config, (err, result) => {
+      err ? reject(err) : resolve(result.css.toString());
+    });
+  });
+}
 
 /**
  * @description - transform sassy code with postcss
