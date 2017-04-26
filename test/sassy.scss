@@ -3,16 +3,14 @@
  * @author - bornkiller <hjj491229492@hotmail.com>
  */
 
-.auth-root-body {
+.auth-box {
   padding: 0;
-}
-
-.auth-container {
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 
 :global .page-core {
   display: flex;
+
+  &__header {
+    flex: 0 1;
+  }
 }

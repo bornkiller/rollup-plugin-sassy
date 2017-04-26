@@ -1,3 +1,3 @@
-import styles, { authRootBody } from './sassy.css';
+import styles, { authBox } from './sassy.scss';
 
-assert.equal(styles.authRootBody, authRootBody);
+assert.equal(styles.authBox, authBox);
