@@ -68,11 +68,10 @@ function transformSassyFlow(sassy, id) {
  * @param {object} connection
  */
 function fabricateSassyCode(connection) {
-  let variable = `var sassy_fabrication = ${JSON.stringify(connection)};`;
-  let defaultExports = `export default sassy_fabrication;\n\n`;
-  let destructExports = keys(connection).map((key) => `export const ${key} = sassy_fabrication.${key}`);
+  let defaultExports = `export default ${JSON.stringify(connection)};\n\n`;
+  let destructExports = keys(connection).map((key) => `export const ${key} = ${JSON.stringify(Reflect.get(connection, key))}`);
 
-  return [variable, defaultExports, ...destructExports].join('\n');
+  return [defaultExports, ...destructExports].join('\n');
 }
 
 /**
