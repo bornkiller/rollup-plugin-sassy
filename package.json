@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-sassy",
-  "version": "0.3.3",
+  "version": "0.3.5",
   "description": "rollup plugin for sass -> css -> css-module workflow.",
   "main": "index.js",
   "author": "bornkiller <hjj491229492@hotmail.com>",
