@@ -5,6 +5,7 @@
 
 const postcss = require('postcss');
 const postCssModules = require('postcss-modules');
+const autoprefixer = require('autoprefixer');
 const { render } = require('node-sass');
 const { camelCase, keys } = require('lodash');
 const Reflection = new Map();
@@ -48,7 +49,7 @@ function transformSassyFlow(sassy, id) {
   };
 
   return new Promise((resolve, reject) => {
-    postcss([postCssModules({ getJSON: extractCssMappings(id) })])
+    postcss([autoprefixer(), postCssModules({ getJSON: extractCssMappings(id) })])
       .process(sassy, opts)
       .then((result) => {
         resolve({
