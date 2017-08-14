@@ -1920,7 +1920,7 @@ rollup-pluginutils@^2.0.1:
 
 rollup@^0.47.4:
   version "0.47.4"
-  resolved "https://registry.npmjs.org/rollup/-/rollup-0.47.4.tgz#e3a55de83a78221d232ce29619a8d68189ae845e"
+  resolved "http://rn.juxinli.com/rollup/download/rollup-0.47.4.tgz#e3a55de83a78221d232ce29619a8d68189ae845e"
 
 run-async@^0.1.0:
   version "0.1.0"

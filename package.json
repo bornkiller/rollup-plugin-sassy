@@ -24,6 +24,6 @@
     "rollup": "^0.47.4"
   },
   "peerDependencies": {
-    "rollup": "^0.41.6"
+    "rollup": "^0.47.4"
   }
 }
