@@ -32,7 +32,7 @@ function sassy(opts = {}) {
     transform(sassy, id) {
       if (!filter(id)) return null;
 
-      const includePaths = opts.sass ? [...opts.sass, path.dirname(id), process.cwd()] : [path.dirname(id), process.cwd()];
+      const includePaths = opts.sass ? [...opts.sass.includePaths, path.dirname(id)] : [path.dirname(id)];
       const config = Object.assign({ data: sassy }, opts.sass, { includePaths: includePaths });
 
       return compileSassCode(config)
