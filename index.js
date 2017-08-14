@@ -3,12 +3,18 @@
  * @author - bornkiller <hjj491229492@hotmail.com>
  */
 
+// Native
 const path = require('path');
 const fs = require('fs-promise');
+
+// External
 const { keys, isFunction, isString } = require('lodash');
 const { createFilter } = require('rollup-pluginutils');
+
+// Internal
 const { compileSassCode, fabricateSassyCode, transformSassyFlow } = require('./src/intermediate');
 
+// Scope
 const defaults = {
   include: ['**/*.css', '**/*.scss'],
   exclude: ['node_modules/**', 'bower_components/**'],
@@ -19,6 +25,8 @@ const defaults = {
     outputStyle: 'expanded'
   }
 };
+// Coco bundle private strategy, with strategy field
+const CocoPrivateStrategy = 'CocoPrivate';
 
 module.exports = sassy;
 
@@ -34,6 +42,21 @@ function sassy(opts = {}) {
 
       const includePaths = opts.sass ? [...opts.sass.includePaths, path.dirname(id)] : [path.dirname(id)];
       const config = Object.assign({ data: sassy }, opts.sass, { includePaths: includePaths });
+
+      if (options.strategy === CocoPrivateStrategy) {
+        const extension = path.extname(id);
+
+        if (extension === '.scss') {
+          return compileSassCode(config).then((css) => {
+            Reflect.set(styles, id, css);
+
+            return {
+              code: `export default ''`,
+              map: { mappings: '' }
+            };
+          });
+        }
+      }
 
       return compileSassCode(config)
         .then((css) => transformSassyFlow(css, id))
